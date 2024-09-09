@@ -1,0 +1,73 @@
+.typing-animation .typing-dot {
+  height: 7px;
+  width: 7px;
+  background: var(--text-color);
+  margin: 0 3px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  animation: animateDots 1.5s var(--delay) ease-in-out infinite;
+  -webkit-animation: animateDots 1.5s var(--delay) ease-in-out infinite;
+}
+
+.typing-animation {
+  display: inline-flex;
+  padding-left: 25px;
+}
+
+@keyframes animateDots {
+  0%,
+  14% {
+    transform: translateY(0px);
+    -webkit-transform: translateY(0px);
+    -moz-transform: translateY(0px);
+    -ms-transform: translateY(0px);
+    -o-transform: translateY(0px);
+  }
+  22% {
+    opacity: 0.4;
+    transform: translateY(-6px);
+    -webkit-transform: translateY(-6px);
+    -moz-transform: translateY(-6px);
+    -ms-transform: translateY(-6px);
+    -o-transform: translateY(-6px);
+  }
+  44% {
+    opacity: 0.2;
+  }
+}
+
+/* OPENING PARAGRAPH TEXT */
+.typewriter {
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid black;
+  /*Cursor*/
+  display: inline-block;
+  animation: typing 4s steps(40, end), blink-caret 0.75s step-end infinite;
+  -webkit-animation: typing 4s steps(40, end),
+    blink-caret 0.75s step-end infinite;
+  /* animation-fill-mode: forwards; */
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 50%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    /* border-color: black; */
+  }
+}

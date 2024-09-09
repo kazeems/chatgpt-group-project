@@ -1,0 +1,66 @@
+/* Responsive Design */
+@media (max-width: 1000px) {
+  .chat-container {
+    width: 375px;
+    padding: 5px;
+  }
+
+  .opening-message {
+    width: 100%;
+  }
+
+  .opening-message p {
+    font-size: 12px;
+  }
+
+  .typing--container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .typing-textarea {
+    width: 100%;
+    height: 25px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  ion-icon {
+    font-size: 12px;
+  }
+
+  .typing-controls {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  textarea {
+    font-size: 0.9em;
+  }
+  .typing-content span {
+    height: 25px;
+    width: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .typing-textarea textarea {
+    padding: 6px 45px 15px 20px;
+    font-size: 12px;
+  }
+
+  :where(.chat-container, textarea)::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  :where(.chat-container, textarea)::-webkit-scrollbar-track {
+    background: var(--incoming-chat-bg);
+    width: 25px;
+  }
+
+  :where(.chat-container, textarea)::-webkit-scrollbar-thumb {
+    background: var(--icon-color);
+    width: 25px;
+  }
+}
