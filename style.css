@@ -153,6 +153,9 @@ body {
 }
 
 .typing--container {
+  position: fixed;
+  bottom: 0;
+  display: flex;
   width: 100%;
   padding: 10px 20px;
   justify-content: center;
