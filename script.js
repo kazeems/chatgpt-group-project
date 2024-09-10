@@ -70,7 +70,7 @@ const showTypingAnimation = () => {
 
 // SHOW  MESSAGE
 const createElement = (html, className) => {
-  // Create a ne div  and apply chat, specified class and set html content of div
+  // Create a new div  and apply chat, specified class and set html content of div
   const chatDiv = document.createElement("div");
   chatDiv.classList.add("chat", className);
   chatDiv.innerHTML = html;
