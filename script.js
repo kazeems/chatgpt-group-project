@@ -24,7 +24,7 @@ const showTypingAnimation = ()=>{
             ><ion-icon name="copy"></ion-icon
           ></span>
         </div>`;
-    // Create  an incoming chat div with typing animation and append it to chat container.
+    // Create  an incoming chat div wwith typing animation and append it to chat container
 
     const incomingChatDiv = createElement(html, "incoming--chat");
     chatContainer.appendChild(incomingChatDiv);
