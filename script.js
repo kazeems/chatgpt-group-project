@@ -128,7 +128,7 @@ themeBtn.addEventListener("click", () => {
   localStorage.setItem("themeColor", isLightMode ? "light_mode" : "dark_mode");
 });
 
-//TODO: DO ADJUST INPUT FIELD DYNAMICALLY
+//TADJUST INPUT FIELD DYNAMICALLY
 const initialHeight = chatInput.scrollHeight;
 
 chatInput.addEventListener('input', () => {
