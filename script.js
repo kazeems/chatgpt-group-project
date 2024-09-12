@@ -103,6 +103,7 @@ const handleOutgoingChat = () => {
   chatContainer.querySelector(".opening-message")?.remove();
   chatContainer.appendChild(outgoingChatDiv);
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  chatInput.style.height = `${initialHeight}px`;
   setTimeout(showTypingAnimation, 500);
 };
 
@@ -128,6 +129,12 @@ themeBtn.addEventListener("click", () => {
 });
 
 //TODO: DO ADJUST INPUT FIELD DYNAMICALLY
+const initialHeight = chatInput.scrollHeight;
+
+chatInput.addEventListener('input', () => {
+  chatInput.style.height = `${initialHeight}px`;
+  chatInput.style.height = `${chatInput.scrollHeight}px`;
+});
 
 
 //call loadData function
