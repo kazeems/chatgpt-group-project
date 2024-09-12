@@ -66,6 +66,7 @@ const showTypingAnimation = () => {
 
   const incomingChatDiv = createElement(html, "incoming--chat");
   chatContainer.appendChild(incomingChatDiv);
+  chatContainer.scrollTo(0, chatContainer.scrollHeight);
 };
 
 // SHOW  MESSAGE
@@ -101,6 +102,7 @@ const handleOutgoingChat = () => {
   const outgoingChatDiv = createElement(html, "outgoing--chat");
   chatContainer.querySelector(".opening-message")?.remove();
   chatContainer.appendChild(outgoingChatDiv);
+  chatContainer.scrollTo(0, chatContainer.scrollHeight);
   setTimeout(showTypingAnimation, 500);
 };
 
