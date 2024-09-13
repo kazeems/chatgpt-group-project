@@ -50,8 +50,8 @@
   }
 
   .typing-content span {
-    height: 25px; 
-    width: 25px; 
+    height: 25px;
+    width: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,18 +65,18 @@
   }
 
   /* Scrollbar Styling */
-  .chat-container::-webkit-scrollbar, 
+  .chat-container::-webkit-scrollbar,
   textarea::-webkit-scrollbar {
     width: 8px;
     transition: width 0.3s ease;
   }
 
-  .chat-container::-webkit-scrollbar-track, 
+  .chat-container::-webkit-scrollbar-track,
   textarea::-webkit-scrollbar-track {
     background: var(--incoming-chat-bg);
   }
 
-  .chat-container::-webkit-scrollbar-thumb, 
+  .chat-container::-webkit-scrollbar-thumb,
   textarea::-webkit-scrollbar-thumb {
     background: var(--icon-color);
   }
