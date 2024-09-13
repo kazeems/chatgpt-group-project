@@ -6,7 +6,8 @@ const deleteBtn = document.getElementById("delete-btn");
 
 let userText = null;
 
-const API_KEY = "";
+// API configuration
+const API_KEY = "AIzaSyDZJUoNINS22HkakzYHDwkqfEmVJQGn9NE"; // Your API key here
 
 let loadDataFromLocalStorage = () => {
   // Load and apply the saved theme from local storage
@@ -58,24 +59,21 @@ const createElement = (html, className) => {
 // getChatResponse Function Here
 
 const getChatResponse = async (incomingChatDiv) => {
-  const API_URL = "https://api.openai.com/v1/completions";
+  const API_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`;
   const pElement = document.createElement("p");
 
   // Define the properties and data for the API request
   const requestOptions = {
       method: "POST",
       headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${API_KEY}`
+          "Content-Type": "application/json"
       },
       body: JSON.stringify({
-          model: "gpt-4o-mini",
-          prompt: userText,
-          max_tokens: 2048,
-          temperature: 0.2,
-          n: 1,
-          stop: null
-      })
+        contents: [{ 
+          role: "user", 
+          parts: [{ text: userText }] 
+        }] 
+      }),
   };
 
   try {
@@ -89,7 +87,7 @@ const getChatResponse = async (incomingChatDiv) => {
 
       const data = await response.json();
       // Update the paragraph element with the response text
-      pElement.textContent = data.choices && data.choices[0] ? data.choices[0].text.trim() : "No response from API.";
+      pElement.textContent = data?.candidates[0]?.content?.parts[0]?.text.replace(/\*\*(.*?)\*\*/g, '$1') || "No response from API.";
   } catch (error) {
       // Handle errors and update UI
       pElement.classList.add("error");
