@@ -6,7 +6,7 @@ const deleteBtn = document.getElementById("delete-btn");
 
 let userText = null;
 
-//TODO: DECLARE API KEY HERE
+const API_KEY = "";
 
 let loadDataFromLocalStorage = () => {
   // Load and apply the saved theme from local storage
@@ -20,7 +20,6 @@ let loadDataFromLocalStorage = () => {
   themeBtn.innerHTML = isLightMode
     ? '<ion-icon name="moon"></ion-icon>' // Moon icon for light mode
     : '<ion-icon name="sunny"></ion-icon>'; // Sun icon for dark mode
-
 
   let defaultText = `
       <div class="opening-message">
@@ -47,6 +46,81 @@ let loadDataFromLocalStorage = () => {
   chatContainer.scrollTo(0, chatContainer.scrollHeight); // Scroll to bottom of the chat container
 };
 
+// SHOW  MESSAGE
+const createElement = (html, className) => {
+  // Create a new div  and apply chat, specified class and set html content of div
+  const chatDiv = document.createElement("div");
+  chatDiv.classList.add("chat", className);
+  chatDiv.innerHTML = html;
+  return chatDiv;
+};
+
+// getChatResponse Function Here
+
+const getChatResponse = async (incomingChatDiv) => {
+  const API_URL = "https://api.openai.com/v1/completions";
+  const pElement = document.createElement("p");
+
+  // Define the properties and data for the API request
+  const requestOptions = {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${API_KEY}`
+      },
+      body: JSON.stringify({
+          model: "gpt-4o-mini",
+          prompt: userText,
+          max_tokens: 2048,
+          temperature: 0.2,
+          n: 1,
+          stop: null
+      })
+  };
+
+  try {
+      // Fetch response from the API
+      const response = await fetch(API_URL, requestOptions);
+      
+      // Check if response is okay
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      // Update the paragraph element with the response text
+      pElement.textContent = data.choices && data.choices[0] ? data.choices[0].text.trim() : "No response from API.";
+  } catch (error) {
+      // Handle errors and update UI
+      pElement.classList.add("error");
+      pElement.textContent = "Oops! Something went wrong while retrieving the response. Please try again.";
+      console.error("Error fetching chat response:", error);
+  }
+
+  // Remove the typing animation, append the paragraph element and save the chats to local storage
+  incomingChatDiv.querySelector(".typing-animation").remove();
+  incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
+
+  // Update chat history in local storage
+  localStorage.setItem("all-chats", chatContainer.innerHTML);
+  
+  // Scroll to the bottom of the chat container
+  chatContainer.scrollTo(0, chatContainer.scrollHeight);
+};
+
+
+//COPY RESPONSE FUNCTION
+const copyResponse = (copyBtn) => {
+  // Copy the text content of the response to the clipboard
+  const responseTextElement = copyBtn.parentElement.querySelector("p");
+  navigator.clipboard.writeText(responseTextElement.textContent);
+  // Change the icon to indicate success
+  const icon = copyBtn.querySelector("ion-icon");
+  icon.setAttribute("name", "check"); // Change to check icon to indicate success
+  // After 1 second, revert the icon to the original "copy"
+  setTimeout(() => icon.setAttribute("name", "copy"), 1000);
+};
+
 // Typing animation
 const showTypingAnimation = () => {
   const html = `<div class="chat-content">
@@ -58,7 +132,7 @@ const showTypingAnimation = () => {
               <div class="typing-dot" style="--delay:0.4s"></div>
             </div>
           </div>
-          <span class="icon icon--copy material-symbols"
+          <span onclick="copyResponse(this)" class="icon icon--copy material-symbols"
             ><ion-icon name="copy"></ion-icon
           ></span>
         </div>`;
@@ -67,26 +141,14 @@ const showTypingAnimation = () => {
   const incomingChatDiv = createElement(html, "incoming--chat");
   chatContainer.appendChild(incomingChatDiv);
   chatContainer.scrollTo(0, chatContainer.scrollHeight);
+  getChatResponse(incomingChatDiv);
 };
-
-// SHOW  MESSAGE
-const createElement = (html, className) => {
-  // Create a new div  and apply chat, specified class and set html content of div
-  const chatDiv = document.createElement("div");
-  chatDiv.classList.add("chat", className);
-  chatDiv.innerHTML = html;
-  return chatDiv;
-};
-
-//TODO: DO GETCHATRESPONSE FUNCTION HERE
-
-//TODO: DO COPYRESPONSE FUNCTION HERE
 
 const handleOutgoingChat = () => {
   userText = chatInput.value.trim(); // Get chat value and remove extra spaces
   console.log(userText);
 
-  // Clear the input field TODO: DO RESET HEIGHT LATER
+  // Clear the input field
   chatInput.value = "";
 
   const html = `<div class="chat-content">
@@ -123,19 +185,26 @@ themeBtn.addEventListener("click", () => {
   themeBtn.innerHTML = isLightMode
     ? '<ion-icon name="moon"></ion-icon>' // Moon icon for light mode
     : '<ion-icon name="sunny"></ion-icon>'; // Sun icon for dark mode
-  
+
   // Save the current theme to local storage
   localStorage.setItem("themeColor", isLightMode ? "light_mode" : "dark_mode");
 });
 
-//TODO: DO ADJUST INPUT FIELD DYNAMICALLY
 const initialHeight = chatInput.scrollHeight;
 
-chatInput.addEventListener('input', () => {
+chatInput.addEventListener("input", () => {
   chatInput.style.height = `${initialHeight}px`;
   chatInput.style.height = `${chatInput.scrollHeight}px`;
 });
 
+chatInput.addEventListener("keydown", (e) => {
+  // If the Enter key is pressed without Shift and the window width is larger
+  // than 800 pixels, handle the outgoing chat
+  if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+    e.preventDefault();
+    handleOutgoingChat();
+  }
+});
 
 //call loadData function
 loadDataFromLocalStorage();
